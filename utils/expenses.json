@@ -1,0 +1,88 @@
+[{
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Puma Store",
+    "amount": 59.95,
+    "date": "2025-04-02T12:00:00Z",
+    "paymentMethod": "creditCard",
+    "category": "fashion"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "name": "Apple Store",
+    "amount": 329.99,
+    "date": "2025-04-01T12:00:00Z",
+    "paymentMethod": "creditCard",
+    "category": "technology"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "name": "Grocery Store",
+    "amount": 75.49,
+    "date": "2025-03-31T12:00:00Z",
+    "paymentMethod": "debitCard",
+    "category": "food"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "name": "Gym Membership",
+    "amount": 45.00,
+    "date": "2025-03-03T12:00:00Z",
+    "paymentMethod": "debitCard",
+    "category": "health"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "name": "Gas Station",
+    "amount": 50.87,
+    "date": "2025-03-28T12:00:00Z",
+    "paymentMethod": "creditCard",
+    "category": "transportation"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440006",
+    "name": "Bookstore",
+    "amount": 23.45,
+    "date": "2025-03-30T12:00:00Z",
+    "paymentMethod": "cash",
+    "category": "education"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440007",
+    "name": "Streaming Service",
+    "amount": 19.99,
+    "date": "2025-03-20T12:00:00Z",
+    "paymentMethod": "creditCard",
+    "category": "entertainment"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440008",
+    "name": "Restaurant",
+    "amount": 88.75,
+    "date": "2025-03-23T12:00:00Z",
+    "paymentMethod": "debitCard",
+    "category": "food"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440009",
+    "name": "Hotel Booking",
+    "amount": 399.99,
+    "date": "2025-03-17T12:00:00Z",
+    "paymentMethod": "creditCard",
+    "category": "travel"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440010",
+    "name": "Movie Tickets",
+    "amount": 28.50,
+    "date": "2025-04-02T09:00:00Z",
+    "paymentMethod": "cash",
+    "category": "entertainment"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440011",
+    "name": "Clothing Store",
+    "amount": 120.00,
+    "date": "2025-03-15T12:00:00Z",
+    "paymentMethod": "debitCard",
+    "category": "fashion"
+  }]
