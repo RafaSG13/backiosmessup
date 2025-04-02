@@ -4,7 +4,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node --watch app.js"
   },
   "repository": {
     "type": "git",

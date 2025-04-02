@@ -1,0 +1,30 @@
+
+
+GET http://localhost:3000/expenses
+
+GET http://localhost:3000/expenses/550e8400-e29b-41d4-a716-446655440001
+
+POST http://localhost:3000/expenses
+Content-Type: application/json
+
+{
+    "name": "Puma store clothing",
+    "amount": 100,
+    "date": "2025-04-01T12:00:00Z",
+    "paymentMethod": "Credit Card",
+    "category": "Technology and Communications"
+}
+
+PATCH http://localhost:3000/expenses/550e8400-e29b-41d4-a716-446655440001
+Content-Type: application/json
+
+{
+    "name": "Puma store clothing",
+    "amount": 1000,
+    "date": "2025-04-01T12:00:00Z",
+    "paymentMethod": "Paypal",
+    "category": "Technology and Communications"
+}
+
+
+DELETE http://localhost:3000/localhost:3000/expenses/550e8400-e29b-41d4-a716-446655440001
