@@ -8,11 +8,11 @@ POST http://localhost:3000/expenses
 Content-Type: application/json
 
 {
-    "name": "Puma store clothing",
-    "amount": 100,
+    "name": "Airplane ticket to Madrid",
+    "amount": 70.0,
     "date": "2025-04-01T12:00:00Z",
-    "paymentMethod": "Credit Card",
-    "category": "Technology and Communications"
+    "paymentMethod": "Debit Card",
+    "category": "Travel"
 }
 
 PATCH http://localhost:3000/expenses/550e8400-e29b-41d4-a716-446655440001

@@ -1,4 +1,4 @@
-import { ExpenseModel } from '../models/expense-model.js'
+import { ExpenseModel } from '../models/mongodb/expense-model.js'
 import { validateExpense } from '../schemas/expense-schema.js'
 
 export class ExpensesController {
