@@ -1,7 +1,4 @@
 import { validateLoginAuthInput, validateRegisterAuthInput } from '../schemas/auth-schemas.js'
-import jwt from 'jsonwebtoken'
-import { SECRET_JWT_KEY } from '../config/config.js'
-
 export class AuthenticationController {
   constructor ({ authModel }) {
     this.authModel = authModel
@@ -14,12 +11,10 @@ export class AuthenticationController {
     }
 
     try {
-      const user = await this.authModel.login({ ...result.data })
-      const accessToken = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '1d' })
-      const refreshToken = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '7d' })
-      return res.send({ accessToken, refreshToken })
+      const loginResult = await this.authModel.login({ ...result.data })
+      return res.send(loginResult)
     } catch (error) {
-      return res.status(500).json({ error: 'Couldnt perfomr login action. Login failed' })
+      return res.status(500).json({ error: 'Couldnt perform login action. Login failed' })
     }
   }
 
@@ -29,15 +24,24 @@ export class AuthenticationController {
     if (result.error) {
       return res.status(400).json({ error: 'Request malformed' })
     }
-
-    const user = await this.authModel.register({ ...result.data })
-
-    if (!user) {
-      return res.status(444).json({ error: 'Error registering user' })
+    try {
+      const registerResult = await this.authModel.register({ ...result.data })
+      return res.status(201).send(registerResult)
+    } catch (error) {
+      return res.status(500).json({ error: error.message })
+      // return res.status(500).json({ error: 'Couldnt perform register action. Register failed' })
     }
+  }
 
-    const accessToken = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '1d' })
-    const refreshToken = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '7d' })
-    return res.status(201).send({ accessToken, refreshToken })
+  refreshToken = async (req, res) => {
+    const token = req.headers.authorization
+    if (!token) return res.status(400).json({ error: 'No existing token' })
+
+    try {
+      const accessToken = await this.authModel.refresh({ input: { token } })
+      return res.send({ accessToken })
+    } catch (error) {
+      return res.status(500).json({ error: 'Couldnt perform refresh action. Refresh failed' })
+    }
   }
 }

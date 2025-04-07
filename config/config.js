@@ -5,7 +5,9 @@ dotenv.config()
 
 export const {
   PORT = 3000,
-  SALT_ROUNDS,
   MONGO_URL,
-  SECRET_JWT_KEY
+  ACCESS_SECRET_JWT_KEY,
+  REFRESH_SECRET_JWT_KEY
 } = process.env
+
+export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10) || 10
