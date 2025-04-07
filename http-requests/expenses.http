@@ -1,6 +1,7 @@
 
 
 GET http://localhost:3000/expenses
+Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkODcyNzFmOC0zMjk0LTQwMTItYmVjMy1mNTc2MmY2NTQ5ZmIiLCJlbWFpbCI6InJhbW9uLmNhY2hhbGVzQGV4YW1wbGUuY29tIiwibmFtZSI6IlJhbW9uIENhY2hhbGVzIiwidXNlckltYWdlIjpudWxsLCJ0aW1lU3RhbXAiOjE3NDQwNDg0NzQxNDUsImlhdCI6MTc0NDA0ODQ3NCwiZXhwIjoxNzQ0MDQ5Mzc0fQ.fieOO0Xuc5ti1jDTt6ZCwmF0f3MUizQ3Il1YW-1cReQ
 
 GET http://localhost:3000/expenses/550e8400-e29b-41d4-a716-446655440001
 

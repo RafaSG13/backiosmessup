@@ -1,17 +1,16 @@
 [
-    {
-      "id": "7fed80df-a327-42a6-b21e-f03d5e7668de",
-      "email": "marcos.flyer@example.com",
-      "password": "$2b$10$ds4yfar3YlY5A4WsV.1pYeR3/S7VrRfrzFH7FP5QQemLv63fL8siO",
-      "name": "Marcos McFly",
-      "userImage": null
-    },
-    {
-      "id": "ddff17a1-8204-4b63-919c-920647e64b5d",
-      "email": "rafael.olesevilla@example.com",
-      "password": "$2b$10$Kz.5ZRqQH0YTWEYPWR7o/uO0/qBnGmzYedOofoD7aaUBHfiHOI/h6",
-      "name": "Rafael Sevillano",
-      "userImage": null
-    }
-  ]
-  
+  {
+    "id": "7fed80df-a327-42a6-b21e-f03d5e7668de",
+    "email": "marcos.flyer@example.com",
+    "password": "$2b$10$ds4yfar3YlY5A4WsV.1pYeR3/S7VrRfrzFH7FP5QQemLv63fL8siO",
+    "name": "Marcos McFly",
+    "userImage": null
+  },
+  {
+    "id": "ddff17a1-8204-4b63-919c-920647e64b5d",
+    "email": "rafael.olesevilla@example.com",
+    "password": "$2b$10$Kz.5ZRqQH0YTWEYPWR7o/uO0/qBnGmzYedOofoD7aaUBHfiHOI/h6",
+    "name": "Rafael Sevillano",
+    "userImage": null
+  }
+]
