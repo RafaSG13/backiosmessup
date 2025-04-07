@@ -1,0 +1,31 @@
+//AUTHENTICATION
+
+POST  http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "rafael.olesevilla@example.com",
+    "password": "oleloscaracoleh@11"
+}
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "name": "Ramon Cachales",
+    "email": "ramon.cachales@example.com",
+    "userImage": null,
+    "password": "pulpoYMaspulto_2020"
+}
+
+//User already exists
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "name": "Rafael Sevillano",
+    "email": "rafael.olesevilla@example.com",
+    "userImage": null,
+    "password": "oleloscaracoleh@11"
+}
