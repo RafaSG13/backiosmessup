@@ -1,9 +1,8 @@
 import mongoose from 'mongoose'
+import { MONGO_URL } from '../../config/config.js'
 
-// Conexión a MongoDB
-await mongoose.connect('mongodb+srv://terrarafael23:xApwe7-huxsor-roxgah@mucluster0.w3e5r.mongodb.net/expensesDB')
+await mongoose.connect(MONGO_URL + 'expensesDB')
 
-// Definición del esquema de Mongoose
 const expenseSchema = new mongoose.Schema({
   name: { type: String, required: true },
   amount: { type: mongoose.Schema.Types.Double, required: true },
@@ -12,12 +11,10 @@ const expenseSchema = new mongoose.Schema({
   paymentMethod: { type: String, required: true }
 })
 
-// Creación del modelo de Mongoose
 const Expense = mongoose.model('Expense', expenseSchema)
 
 export class ExpenseModel {
-  // Obtener todos los gastos con filtros opcionales
-  static async getAll ({ name, amount, category, date, paymentMethod }) {
+  getAll = async ({ name, amount, category, date, paymentMethod }) => {
     const query = {}
     if (name) query.name = name
     if (amount) query.amount = amount
@@ -28,24 +25,20 @@ export class ExpenseModel {
     return await Expense.find(query)
   }
 
-  // Obtener un gasto por ID
-  static async get ({ id }) {
+  get = async ({ id }) => {
     return await Expense.findById(id)
   }
 
-  // Crear un nuevo gasto
-  static async create ({ input }) {
+  create = async ({ input }) => {
     const newExpense = new Expense(input)
     return await newExpense.save()
   }
 
-  // Actualizar un gasto por ID
-  static async update ({ id, input }) {
+  update = async ({ id, input }) => {
     return await Expense.findByIdAndUpdate(id, input, { new: true })
   }
 
-  // Eliminar un gasto por ID
-  static async delete ({ id }) {
+  delete = async ({ id }) => {
     return await Expense.findByIdAndDelete(id)
   }
 }

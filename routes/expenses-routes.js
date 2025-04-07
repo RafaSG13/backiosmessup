@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import { ExpensesController } from '../controllers/expenses-controller.js'
 
-const expensesRouter = Router()
+export const createExpensesRouter = ({ expensesModel }) => {
+  const router = Router()
+  const expensesController = new ExpensesController({ expensesModel })
 
-expensesRouter.get('/', ExpensesController.getAll)
-expensesRouter.get('/:id', ExpensesController.get)
+  router.get('/', expensesController.getAll)
+  router.get('/:id', expensesController.get)
+  router.post('/', expensesController.create)
+  router.patch('/:id', expensesController.update)
 
-expensesRouter.post('/', ExpensesController.create)
-expensesRouter.patch('/:id', ExpensesController.update)
-
-export { expensesRouter }
+  return router
+}
