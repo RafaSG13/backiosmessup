@@ -1,4 +1,4 @@
-import { jsonImport } from '../../utils/json-utils.js'
+import { jsonImport, writeJson } from '../../utils/json-utils.js'
 import { SALT_ROUNDS } from '../../config/config.js'
 import bcrypt from 'bcrypt'
 import { generateAccessToken, generateRefreshToken, validateRefreshToken } from '../../utils/token-utils.js'
@@ -26,8 +26,12 @@ export class AuthModel {
 
     const tokenInfo = createTokenInfo(user)
     const accessToken = generateAccessToken(tokenInfo)
+    const refreshToken = generateRefreshToken(tokenInfo)
 
-    return { accessToken }
+    tokens.push({ refreshToken })
+    writeJson('../json/tokens.json', tokens)
+
+    return { accessToken, refreshToken }
   }
 
   static async register ({ email, password, name, userImage }) {
@@ -49,6 +53,9 @@ export class AuthModel {
 
     tokens.push({ refreshToken })
     users.push(newUser)
+
+    writeJson('../json/users.json', users)
+    writeJson('../json/tokens.json', tokens)
 
     return { accessToken, refreshToken }
   }
