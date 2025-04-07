@@ -19,7 +19,6 @@ export class AuthenticationController {
   }
 
   register = async (req, res) => {
-    console.log(req)
     const result = validateRegisterAuthInput(req.body)
 
     if (result.error) {

@@ -29,7 +29,7 @@ export class AuthModel {
     const refreshToken = generateRefreshToken(tokenInfo)
 
     tokens.push({ refreshToken })
-    writeJson('../json/tokens.json', tokens)
+    await writeJson('../json/tokens.json', tokens)
 
     return { accessToken, refreshToken }
   }
@@ -54,8 +54,8 @@ export class AuthModel {
     tokens.push({ refreshToken })
     users.push(newUser)
 
-    writeJson('../json/users.json', users)
-    writeJson('../json/tokens.json', tokens)
+    await writeJson('../json/tokens.json', tokens)
+    await writeJson('../json/users.json', users)
 
     return { accessToken, refreshToken }
   }
