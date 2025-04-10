@@ -1,11 +1,12 @@
-import { jsonImport } from '../../utils/json-utils.js'
+import { jsonImport, writeJson } from '../../utils/json-utils.js'
 import crypto from 'crypto'
 
 const expenses = jsonImport('../json/expenses.json')
 
 export class ExpenseModel {
-  getAll = async ({ name, amount, category, date, paymentMethod }) => {
+  getAll = async ({ name, amount, category, date, paymentMethod, userId }) => {
     const filteredExpenses = expenses.filter(expense => {
+      if (!expense.userId.includes(userId)) return false
       if (name && !expense.name.includes(name)) return false
       if (amount && expense.amount !== amount) return false
       if (category && !expense.category.includes(category)) return false
@@ -28,6 +29,7 @@ export class ExpenseModel {
 
     const newExpense = { id, ...input }
     expenses.push(newExpense)
+    writeJson('../json/expenses.json', expenses)
     return newExpense
   }
 

@@ -6,12 +6,11 @@ import { generateAccessToken, generateRefreshToken, validateRefreshToken } from 
 const users = jsonImport('../json/users.json')
 const tokens = jsonImport('../json/tokens.json')
 
-function createTokenInfo ({ id, email, name, userImage }) {
+function createTokenInfo ({ id, email, name }) {
   return {
     userId: id,
     email,
     name,
-    userImage,
     timeStamp: Date.now()
   }
 }
@@ -34,7 +33,7 @@ export class AuthModel {
     return { accessToken, refreshToken }
   }
 
-  static async register ({ email, password, name, userImage }) {
+  static async register ({ email, password, name }) {
     const user = users.find(user => email === user.email)
     if (user) throw new Error('User already exists')
 
@@ -43,8 +42,7 @@ export class AuthModel {
       id: crypto.randomUUID(),
       email,
       password: passwordHash,
-      name,
-      userImage
+      name
     }
 
     const tokenInfo = createTokenInfo(newUser)
@@ -60,18 +58,20 @@ export class AuthModel {
     return { accessToken, refreshToken }
   }
 
-  static async refresh ({ input }) {
-    const { token } = input
-    const validatedToken = validateRefreshToken(token)
+  static async refresh (input) {
+    const validatedToken = validateRefreshToken(input)
     if (!validatedToken) throw new Error('Token invalid')
-    if (validatedToken.timeStamp + 7 * 24 * 60 * 60 * 1000 < Date.now()) throw new Error('Token expired')
 
-    const refreshToken = tokens.find(token => validatedToken === token)
-    if (!refreshToken) throw new Error('Token not found')
+    if (validatedToken.timeStamp + 10 * 24 * 60 * 60 * 1000 < Date.now()) {
+      throw new Error('Token expired')
+    }
 
-    const tokenInfo = createTokenInfo(refreshToken)
+    const foundToken = tokens.find(t => t.refreshToken === input)
+    if (!foundToken) throw new Error('Token not found')
 
+    const tokenInfo = createTokenInfo(validatedToken) // Usás el decodificado
     const accessToken = generateAccessToken(tokenInfo)
-    return { accessToken }
+
+    return accessToken
   }
 }
