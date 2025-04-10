@@ -14,7 +14,6 @@ Content-Type: application/json
 {
     "name": "Ramon Cachales",
     "email": "ramon.cachales@example.com",
-    "userImage": null,
     "password": "pulpoYMaspulto_2020"
 }
 
@@ -26,6 +25,12 @@ Content-Type: application/json
 {
     "name": "Rafael Sevillano",
     "email": "rafael.olesevilla@example.com",
-    "userImage": null,
     "password": "oleloscaracoleh@11"
+}
+
+POST http://localhost:3000/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMGU5YjUxNS0xYjg4LTRlZDctOTQ3Mi0zODliY2JmYmQyZWUiLCJlbWFpbCI6InJhZmFzcnJnMTNAZ21haWwuY29tIiwibmFtZSI6IlJhZmFlbCBTZXJyYW5vIEdhbWFycmEiLCJ0aW1lU3RhbXAiOjE3NDQzMTE3MDIzNTksImlhdCI6MTc0NDMxMTcwMiwiZXhwIjoxNzQ0OTE2NTAyfQ.naw16zrCzott8ncWF37qEhjhUZIukpeFuDUMJsNFo-0"
 }

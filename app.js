@@ -3,6 +3,7 @@ import { corsMiddleware } from './middlewares/cors.js'
 import { PORT } from './config/config.js'
 import { createExpensesRouter } from './routes/expenses-routes.js'
 import { createAuthenticationRouter } from './routes/authentication-routes.js'
+import { consoleMiddleware } from './middlewares/console.js'
 
 export const app = ({ expensesModel }) => {
   const app = express()
@@ -13,6 +14,7 @@ export const app = ({ expensesModel }) => {
 
   app.use(corsMiddleware())
   app.use(express.json())
+  app.use(consoleMiddleware)
 
   app.use('/expenses', expensesRouter)
   app.use('/auth', authRouter)

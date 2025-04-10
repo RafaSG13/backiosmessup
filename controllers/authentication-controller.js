@@ -34,11 +34,12 @@ export class AuthenticationController {
   }
 
   refreshToken = async (req, res) => {
-    const token = req.headers.authorization
-    if (!token) return res.status(400).json({ error: 'No existing token' })
+    const { refreshToken } = req.body
+    if (!refreshToken) return res.status(400).json({ error: 'No existing token' })
 
     try {
-      const accessToken = await this.authModel.refresh({ input: { token } })
+      const accessToken = await this.authModel.refresh(refreshToken)
+      console.log('accessToken', accessToken)
       return res.send({ accessToken })
     } catch (error) {
       return res.status(500).json({ error: 'Couldnt perform refresh action. Refresh failed' })
