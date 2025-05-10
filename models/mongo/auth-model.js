@@ -1,70 +1,78 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import { MONGO_URL, SALT_ROUNDS } from '../../config/config.js'
-import { generateAccessToken, generateRefreshToken, validateRefreshToken } from '../../utils/token-utils.js'
+import { generateAccessToken, generateRefreshToken, getTokenExpirationDate, validateRefreshToken } from '../../utils/token-utils.js'
 
-await mongoose.connect(MONGO_URL + 'authDB')
+await mongoose.connect(MONGO_URL + 'expensesDB')
 
-const authSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+const usersSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  refreshTokens: [{ type: String }],
   createdAt: { type: Date, default: Date.now }
 })
 
-const Auth = mongoose.model('Auth', authSchema)
+const tokensSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
+  refreshToken: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+})
+
+const User = mongoose.model('User', usersSchema)
+const Tokens = mongoose.model('Tokens', tokensSchema)
 
 export class AuthModel {
-  static async login ({ email, password }) {
-    const user = await Auth.findOne({ email })
-    if (!user) throw new Error('User not found')
+  async login ({ email, password }) {
+    const user = await User.findOne({ email })
+    if (!user) throw new Error('There is no user with that email')
 
     const passwordMatch = await bcrypt.compare(password, user.password)
     if (!passwordMatch) throw new Error('Password incorrect')
 
-    const tokenInfo = { userId: user._id, email: user.email, name: user.username }
+    const tokenInfo = { userId: user._id, email: user.email, name: user.name }
     const accessToken = generateAccessToken(tokenInfo)
     const refreshToken = generateRefreshToken(tokenInfo)
 
-    user.refreshTokens.push(refreshToken)
-    await user.save()
+    await Tokens({ userId: user._id, refreshToken }).save()
 
     return { accessToken, refreshToken }
   }
 
-  static async register ({ email, password, username }) {
-    const existingUser = await Auth.findOne({ email })
+  async register ({ email, password, name }) {
+    const existingUser = await User.findOne({ email })
     if (existingUser) throw new Error('User already exists')
 
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS)
-    const newUser = new Auth({ username, email, password: passwordHash, refreshTokens: [] })
+    const newUser = new User({ name, email, password: passwordHash })
     await newUser.save()
 
-    const tokenInfo = { userId: newUser._id, email: newUser.email, name: newUser.username }
+    const tokenInfo = { userId: newUser._id, email: newUser.email, name: newUser.name }
     const accessToken = generateAccessToken(tokenInfo)
     const refreshToken = generateRefreshToken(tokenInfo)
 
-    newUser.refreshTokens.push(refreshToken)
-    await newUser.save()
+    await Tokens({ userId: newUser._id, refreshToken }).save()
 
     return { accessToken, refreshToken }
   }
 
-  static async refresh (input) {
+  async refresh (input) {
     const validatedToken = validateRefreshToken(input)
     if (!validatedToken) throw new Error('Token invalid')
+    console.log('validatedToken', validatedToken)
 
-    const user = await Auth.findOne({ refreshTokens: input })
-    if (!user) throw new Error('Token not found')
+    const refreshToken = Tokens.findOne({ userId: validatedToken.userId })
+    if (!refreshToken) throw new Error('Couldnt find any valid refresh token')
 
-    const tokenInfo = { userId: user._id, email: user.email, name: user.username }
+    const expiringDate = getTokenExpirationDate(validatedToken)
+    if (expiringDate < new Date()) throw new Error('Refresh token expired')
+
+    const tokenInfo = { userId: validateRefreshToken.userId, email: validateRefreshToken.email, name: validateRefreshToken.name }
     const accessToken = generateAccessToken(tokenInfo)
 
     return accessToken
   }
 
-  static async deleteUser (id) {
-    return await Auth.findByIdAndDelete(id)
+  async deleteUser (id) {
+    return await User.findByIdAndDelete(id)
   }
 }

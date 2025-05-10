@@ -13,4 +13,10 @@ function validateRefreshToken (token) {
   return jwt.verify(token, REFRESH_SECRET_JWT_KEY)
 }
 
-export { generateAccessToken, generateRefreshToken, validateRefreshToken }
+function getTokenExpirationDate (token) {
+  const decoded = jwt.decode(token, { complete: true })
+  if (!decoded) return null
+  return new Date(decoded.payload.exp * 1000)
+}
+
+export { generateAccessToken, generateRefreshToken, validateRefreshToken, getTokenExpirationDate }
