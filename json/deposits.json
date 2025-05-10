@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "concept": "Freelance Payment",
+    "amount": 1200.0,
+    "date": "2025-01-20T00:00:00.000Z",
+    "foundingSource": "freelance"
+  },
+  {
+    "id": "2",
+    "concept": "Bonus",
+    "amount": 500.0,
+    "date": "2025-01-10T00:00:00.000Z",
+    "foundingSource": "bonuses"
+  },
+  {
+    "id": "3",
+    "concept": "Stock Dividends",
+    "amount": 250.0,
+    "date": "2025-01-05T00:00:00.000Z",
+    "foundingSource": "investments"
+  },
+  {
+    "id": "4",
+    "concept": "Gift",
+    "amount": 150.0,
+    "date": "2025-01-02T00:00:00.000Z",
+    "foundingSource": "gifts"
+  },
+  {
+    "id": "5",
+    "concept": "Passive Income",
+    "amount": 800.0,
+    "date": "2025-01-18T00:00:00.000Z",
+    "foundingSource": "passiveIncome"
+  }
+]
