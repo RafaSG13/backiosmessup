@@ -60,13 +60,13 @@ export class AuthModel {
     if (!validatedToken) throw new Error('Token invalid')
     console.log('validatedToken', validatedToken)
 
-    const refreshToken = Tokens.findOne({ userId: validatedToken.userId })
+    const refreshToken = await Tokens.findOne({ userId: validatedToken.userId })
     if (!refreshToken) throw new Error('Couldnt find any valid refresh token')
 
     const expiringDate = getTokenExpirationDate(validatedToken)
     if (expiringDate < new Date()) throw new Error('Refresh token expired')
 
-    const tokenInfo = { userId: validateRefreshToken.userId, email: validateRefreshToken.email, name: validateRefreshToken.name }
+    const tokenInfo = { userId: validatedToken.userId, email: validatedToken.email, name: validatedToken.name }
     const accessToken = generateAccessToken(tokenInfo)
 
     return accessToken
