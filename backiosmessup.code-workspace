@@ -3,6 +3,9 @@
 		{
 			"name": "backiosmessup",
 			"path": "."
+		},
+		{
+			"path": "../iOSMessup"
 		}
 	],
 	"settings": {}
