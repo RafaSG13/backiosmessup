@@ -14,9 +14,7 @@ function validateRefreshToken (token) {
 }
 
 function getTokenExpirationDate (token) {
-  const decoded = jwt.decode(token, { complete: true })
-  if (!decoded) return null
-  return new Date(decoded.payload.exp * 1000)
+  return new Date(token.exp * 1000)
 }
 
 export { generateAccessToken, generateRefreshToken, validateRefreshToken, getTokenExpirationDate }
