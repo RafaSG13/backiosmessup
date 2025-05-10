@@ -10,7 +10,6 @@ export class ExpensesController {
     const userId = req.info.userId
     try {
       const expenses = await this.expensesModel.getAll({ name, amount, category, date, paymentMethod, userId })
-      console.log('expenses', expenses)
       res.status(200).json(expenses)
     } catch (error) {
       res.status(500).json({ error: error.message })

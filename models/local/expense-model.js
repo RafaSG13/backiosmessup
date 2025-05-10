@@ -14,7 +14,7 @@ export class ExpenseModel {
       if (paymentMethod && !expense.paymentMethod.includes(paymentMethod)) return false
       return true
     })
-    return filteredExpenses
+    return filteredExpenses.map(({ userId, ...rest }) => rest)
   }
 
   get = async ({ id }) => {
