@@ -1,10 +1,9 @@
 import { Router } from 'express'
 import { AuthenticationController } from '../controllers/authentication-controller.js'
-import { AuthModel } from '../models/local/auth-model.js'
 
-export const createAuthenticationRouter = () => {
+export const createAuthenticationRouter = ({ authModel }) => {
   const router = Router()
-  const authenticationController = new AuthenticationController({ authModel: AuthModel })
+  const authenticationController = new AuthenticationController({ authModel })
 
   router.post('/login', authenticationController.login)
   router.post('/register', authenticationController.register)

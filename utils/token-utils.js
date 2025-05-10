@@ -13,4 +13,8 @@ function validateRefreshToken (token) {
   return jwt.verify(token, REFRESH_SECRET_JWT_KEY)
 }
 
-export { generateAccessToken, generateRefreshToken, validateRefreshToken }
+function getTokenExpirationDate (token) {
+  return new Date(token.exp * 1000)
+}
+
+export { generateAccessToken, generateRefreshToken, validateRefreshToken, getTokenExpirationDate }

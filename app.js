@@ -5,10 +5,10 @@ import { createExpensesRouter } from './routes/expenses-routes.js'
 import { createAuthenticationRouter } from './routes/authentication-routes.js'
 import { consoleMiddleware } from './middlewares/console.js'
 
-export const app = ({ expensesModel }) => {
+export const app = ({ expensesModel, authModel }) => {
   const app = express()
   const expensesRouter = createExpensesRouter({ expensesModel })
-  const authRouter = createAuthenticationRouter()
+  const authRouter = createAuthenticationRouter({ authModel })
 
   app.disable('x-powered-by')
 
