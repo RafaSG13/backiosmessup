@@ -1,4 +1,5 @@
 import { validateExpense } from '../schemas/expense-schema.js'
+import { ValidationError, NotFoundError, handleError, AppError } from '../utils/error-utils.js'
 
 export class ExpensesController {
   constructor ({ expensesModel }) {
@@ -12,7 +13,7 @@ export class ExpensesController {
       const expenses = await this.expensesModel.getAll({ name, amount, category, date, paymentMethod, userId })
       res.status(200).json(expenses)
     } catch (error) {
-      res.status(500).json({ error: error.message })
+      handleError(new ValidationError('Failed to fetch expenses'), res)
     }
   }
 
@@ -21,12 +22,11 @@ export class ExpensesController {
     try {
       const expense = await this.expensesModel.get({ id })
       if (!expense) {
-        return res.status(404).json({ error: 'Expense not found' })
+        throw new NotFoundError('Expense not found')
       }
-
-      return res.status(200).json(expense)
+      res.status(200).json(expense)
     } catch (error) {
-      return res.status(500).json({ error: error.message })
+      handleError(error instanceof AppError ? error : new ValidationError('Failed to fetch expense'), res)
     }
   }
 
@@ -34,15 +34,18 @@ export class ExpensesController {
     const result = validateExpense(req.body)
 
     if (result.error) {
-      return res.status(400).json({ error: result.error })
+      return handleError(new ValidationError('Invalid expense data'), res)
     }
 
-    const expense = await this.expensesModel.create({ input: req.body })
-
-    if (!expense) {
-      return res.status(444).json({ error: 'Error creating expense' })
+    try {
+      const expense = await this.expensesModel.create({ input: req.body })
+      if (!expense) {
+        throw new ValidationError('Error creating expense')
+      }
+      res.status(201).json(expense)
+    } catch (error) {
+      handleError(error instanceof AppError ? error : new ValidationError('Failed to create expense'), res)
     }
-    return res.status(201).json(expense)
   }
 
   update = async (req, res) => {
@@ -50,26 +53,30 @@ export class ExpensesController {
     const result = validateExpense(req.body)
 
     if (result.error) {
-      return res.status(400).json({ error: result.error })
+      return handleError(new ValidationError('Invalid expense data'), res)
     }
 
-    const expense = await this.expensesModel.update({ id, input: req.body })
-
-    if (!expense) {
-      return res.status(404).json({ error: 'Expense not found' })
+    try {
+      const expense = await this.expensesModel.update({ id, input: req.body })
+      if (!expense) {
+        throw new NotFoundError('Expense not found')
+      }
+      res.status(200).json(expense)
+    } catch (error) {
+      handleError(error instanceof AppError ? error : new ValidationError('Failed to update expense'), res)
     }
-
-    return res.status(200).json(expense)
   }
 
   delete = async (req, res) => {
     const { id } = req.params
-    const success = await this.expensesModel.delete({ id })
-
-    if (!success) {
-      return res.status(404).json({ error: 'Expense not found' })
+    try {
+      const success = await this.expensesModel.delete({ id })
+      if (!success) {
+        throw new NotFoundError('Expense not found')
+      }
+      res.status(204).end()
+    } catch (error) {
+      handleError(error instanceof AppError ? error : new ValidationError('Failed to delete expense'), res)
     }
-
-    return res.status(204).end()
   }
 }
