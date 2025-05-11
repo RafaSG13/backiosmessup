@@ -8,7 +8,7 @@ export class DepositModel {
     return deposits.filter(deposit => {
       if (concept && deposit.concept !== concept) return false
       if (amount && deposit.amount !== amount) return false
-      if (date && deposit.date !== date) return false
+      if (date && new Date(deposit.date).getTime() !== new Date(date).getTime()) return false
       if (foundingSource && deposit.foundingSource !== foundingSource) return false
       return true
     })
