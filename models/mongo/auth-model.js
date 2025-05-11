@@ -18,22 +18,27 @@ const tokensSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 })
 
-const User = mongoose.model('User', usersSchema)
+const User = mongoose.model('Users', usersSchema)
 const Tokens = mongoose.model('Tokens', tokensSchema)
 
 export class AuthModel {
   async login ({ email, password }) {
     const user = await User.findOne({ email })
-    if (!user) throw new Error('There is no user with that email')
+
+    if (!user) throw new Error('User email or password incorrect')
 
     const passwordMatch = await bcrypt.compare(password, user.password)
-    if (!passwordMatch) throw new Error('Password incorrect')
+    if (!passwordMatch) throw new Error('Password User email or password incorrect')
 
     const tokenInfo = { userId: user._id, email: user.email, name: user.name }
     const accessToken = generateAccessToken(tokenInfo)
     const refreshToken = generateRefreshToken(tokenInfo)
 
-    await Tokens({ userId: user._id, refreshToken }).save()
+    await Tokens.findOneAndUpdate(
+      { userId: user._id },
+      { refreshToken },
+      { upsert: true, new: true }
+    )
 
     return { accessToken, refreshToken }
   }

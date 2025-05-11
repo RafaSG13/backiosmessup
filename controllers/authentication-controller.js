@@ -16,7 +16,7 @@ export class AuthenticationController {
       const loginResult = await this.authModel.login({ ...result.data })
       return res.send(loginResult)
     } catch (error) {
-      handleError(error instanceof UnauthorizedError ? error : new UnauthorizedError('Login failed'), res)
+      handleError(new UnauthorizedError('Login Failed'), res)
     }
   }
 
@@ -30,6 +30,7 @@ export class AuthenticationController {
       const registerResult = await this.authModel.register({ ...result.data })
       return res.status(201).send(registerResult)
     } catch (error) {
+      console.log('error', error)
       handleError(error instanceof ValidationError ? error : new ValidationError('Register failed'), res)
     }
   }
